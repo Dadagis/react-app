@@ -21,14 +21,14 @@ export default class MoviesTable extends Component {
     ));
   };
 
-  tableTitle = () => {
+  tableTitle = (onSort) => {
     return (
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Genre</th>
-          <th>Stock</th>
-          <th>Rate</th>
+          <th onClick={() => onSort("title")}>Title</th>
+          <th onClick={() => onSort("genre.name")}>Genre</th>
+          <th onClick={() => onSort("numberInStock")}>Stock</th>
+          <th onClick={() => onSort("dailyRentalRate")}>Rate</th>
           <th>Like</th>
           <th></th>
         </tr>
@@ -41,11 +41,11 @@ export default class MoviesTable extends Component {
   };
 
   render() {
-    const { movies, onDelete, onLike } = this.props;
+    const { movies, onDelete, onLike, onSort } = this.props;
 
     return (
       <table className="table mt-4">
-        {this.tableTitle()}
+        {this.tableTitle(onSort)}
         {this.tableBody(movies, onLike, onDelete)}
       </table>
     );

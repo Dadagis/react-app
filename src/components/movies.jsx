@@ -38,6 +38,8 @@ export default class Movies extends Component {
     this.setState({ movies: movies });
   };
 
+  handleSort = (path) => {};
+
   handleGenreChange = (genre) => {
     this.setState({ currentGenre: genre, currentPage: 1 });
   };
@@ -77,6 +79,7 @@ export default class Movies extends Component {
             movies={movies}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
+            onSort={this.handleSort}
           />
           <Pagination
             itemsCount={filtered.length}
@@ -89,4 +92,3 @@ export default class Movies extends Component {
     );
   }
 }
-// 16 sorting - raising the sort event
