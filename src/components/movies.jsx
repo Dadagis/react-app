@@ -1,9 +1,36 @@
 import React, { Component } from "react";
+import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
+import { paginate } from "../utils/paginate";
+import Genres from "./common/genres";
+import MoviesTable from "./moviesTable";
 
 export default class Movies extends Component {
   state = {
-    movies: getMovies(),
+    movies: [],
+    genres: [],
+    pageSize: 4,
+    currentPage: 1,
+    currentGenre: "Action",
+  };
+
+  componentDidMount() {
+    const genres = [{ name: "All genres" }, ...getGenres()];
+
+    this.setState({ movies: getMovies(), genres: genres });
+  }
+
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
+
+  handleLike = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
   };
 
   handleDelete = (movie) => {
@@ -11,57 +38,55 @@ export default class Movies extends Component {
     this.setState({ movies: movies });
   };
 
-  mapMovies = () => {
-    return this.state.movies.map((movie) => (
-      <tr key={movie._id}>
-        <td className="">{movie.title}</td>
-        <td className="">{movie.genre.name}</td>
-        <td className="">{movie.numberInStock}</td>
-        <td className="">{movie.dailyRentalRate}</td>
-        <td>
-          <button
-            onClick={() => this.handleDelete(movie)}
-            className="btn btn-danger"
-          >
-            Salut
-          </button>
-        </td>
-      </tr>
-    ));
-  };
-
-  tableTitle = () => {
-    return (
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Genre</th>
-          <th>Stock</th>
-          <th>Rate</th>
-          <th></th>
-        </tr>
-      </thead>
-    );
-  };
-
-  tableBody = () => {
-    return <tbody>{this.mapMovies()}</tbody>;
+  handleGenreChange = (genre) => {
+    this.setState({ currentGenre: genre, currentPage: 1 });
   };
 
   render() {
     const { length: count } = this.state.movies;
 
     if (count === 0) {
-      return <p>There are no movies in the database</p>;
+      return <p className="m-2">There are no movies in the database</p>;
     }
+
+    const filtered =
+      this.state.currentGenre && this.state.currentGenre._id
+        ? this.state.movies.filter(
+            (m) => m.genre._id === this.state.currentGenre._id
+          )
+        : this.state.movies;
+
+    const movies = paginate(
+      filtered,
+      this.state.currentPage,
+      this.state.pageSize
+    );
+
     return (
-      <main className="container">
-        <p>Showing {count} movies in the database</p>
-        <table className="table">
-          {this.tableTitle()}
-          {this.tableBody()}
-        </table>
+      <main className="container row">
+        <Genres
+          genreList={this.state.genres}
+          onGenreChange={this.handleGenreChange}
+          currentGenre={this.state.currentGenre}
+        />
+        <div className="col-sm">
+          <p className="m-2">
+            Showing {filtered.length} movies in the database
+          </p>
+          <MoviesTable
+            movies={movies}
+            onLike={this.handleLike}
+            onDelete={this.handleDelete}
+          />
+          <Pagination
+            itemsCount={filtered.length}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
       </main>
     );
   }
 }
+// 16 sorting - raising the sort event
