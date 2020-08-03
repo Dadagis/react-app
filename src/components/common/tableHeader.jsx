@@ -15,7 +15,7 @@ export default class TableHeader extends Component {
   renderSortIcon = (column) => {
     const { sortColumn } = this.props;
 
-    if (column.path != sortColumn.path) {
+    if (column.path !== sortColumn.path) {
       return null;
     }
     if (sortColumn.order === "asc") {
@@ -42,4 +42,3 @@ export default class TableHeader extends Component {
     );
   }
 }
-// 24 sorting extracting table
