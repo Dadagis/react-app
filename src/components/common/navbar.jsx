@@ -25,6 +25,11 @@ export default class Navbar extends Component {
                 Rentals
               </NavLink>
             </li>
+            <li>
+              <NavLink className="nav-link" to="/login">
+                Login
+              </NavLink>
+            </li>
           </ul>
         </div>
       </nav>
