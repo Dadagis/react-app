@@ -81,29 +81,31 @@ export default class Movies extends Component {
     const { totalCount, data: movies } = this.getPagedData();
 
     return (
-      <main className="container row">
-        <Genres
-          genreList={this.state.genres}
-          onGenreChange={this.handleGenreChange}
-          currentGenre={this.state.currentGenre}
-        />
-        <div className="col-sm">
-          <p className="m-2">Showing {totalCount} movies in the database</p>
-          <MoviesTable
-            movies={movies}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-            sortColumn={this.state.sortColumn}
+      <React.Fragment>
+        <main className="container row">
+          <Genres
+            genreList={this.state.genres}
+            onGenreChange={this.handleGenreChange}
+            currentGenre={this.state.currentGenre}
           />
-          <Pagination
-            itemsCount={totalCount}
-            pageSize={this.state.pageSize}
-            currentPage={this.state.currentPage}
-            onPageChange={this.handlePageChange}
-          />
-        </div>
-      </main>
+          <div className="col-sm">
+            <p className="m-2">Showing {totalCount} movies in the database</p>
+            <MoviesTable
+              movies={movies}
+              onLike={this.handleLike}
+              onDelete={this.handleDelete}
+              onSort={this.handleSort}
+              sortColumn={this.state.sortColumn}
+            />
+            <Pagination
+              itemsCount={totalCount}
+              pageSize={this.state.pageSize}
+              currentPage={this.state.currentPage}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
+        </main>
+      </React.Fragment>
     );
   }
 }
