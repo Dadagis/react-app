@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export default class Input extends Component {
   render() {
-    const { name, label, value, error, onChange } = this.props;
+    const { name, label, value, error, type, onChange } = this.props;
 
     return (
       <div className="form-group">
@@ -13,7 +13,7 @@ export default class Input extends Component {
           autoFocus
           id={name}
           name={name}
-          type="text"
+          type={type}
           className="form-control"
         />
         {error && <div className="alert alert-danger">{error}</div>}
