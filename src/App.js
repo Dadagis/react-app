@@ -17,6 +17,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route path="/movies/:id" component={Movie} />
+          <Route path="/movies/new" component={Movie} />
           <Route path="/register" component={RegisterForm} />
           <Route path="/login" component={LoginForm} />
           <Route path="/movies" component={Movies} />
